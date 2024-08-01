@@ -17,12 +17,3 @@ The main goal of this repository is to:
 **Verse API Reference** https://dev.epicgames.com/documentation/en-us/uefn/verse-api
 
 **Verse Language Reference** https://dev.epicgames.com/documentation/en-us/uefn/verse-language-reference
-
-## Future Projects Include
-The code snippets in this repository are organized into the following categories:
-
-### **Game Mechanics**
-### **User Interface**
-### **AI and NPCs**
-### **Multiplayer**
-
