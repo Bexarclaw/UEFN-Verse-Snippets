@@ -11,8 +11,11 @@ The main goal of this repository is to:
 
 ## Resources
 **Lastest UEFN News** https://dev.epicgames.com/documentation/en-us/uefn/whats-new-in-unreal-editor-for-fortnite
+
 **Snippets Repository** https://dev.epicgames.com/community/fortnite/snippets
+
 **Verse API Reference** https://dev.epicgames.com/documentation/en-us/uefn/verse-api
+
 **Verse Language Reference** https://dev.epicgames.com/documentation/en-us/uefn/verse-language-reference
 
 ## Future Projects Include
