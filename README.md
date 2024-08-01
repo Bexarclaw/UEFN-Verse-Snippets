@@ -1,43 +1,20 @@
-# UEFN-Verse-Snippets
-This repository contains Unreal Engine Fortnite Verse code snippets that help with various gameplay mechanics involving zombie creatures. These snippets are provided for non-commercial use.
+# UEFN Verse Snippets
 
-## Features
+This repository is built to provide a collection of Verse code snippets that I have learned. It also serves as a resource for information related to Epic Games Unreal Engine Fortnite Editor, Verse Programming, and other Fortnite developer information.
 
-- Spawning and eliminating waves of zombie creatures: Automatically spawn waves of zombies and handle their elimination.
-- Granting items to players upon eliminating zombies: Reward players with items when they eliminate zombies.
-- Tracking the number of zombies spawned and eliminated: Keep track of the total number of zombies spawned and eliminated during gameplay.
-- Managing the transition between waves: Smoothly transition between different waves of zombies.
+## Purpose
 
-## Usage
+The main goal of this repository is to:
+- Share useful Verse code snippets for Unreal Engine Fortnite Editor (UEFN).
+- Categorize code snippets based on common Verse coding categories, such as game mechanics.
+- Provide insights and tips on Verse Programming.
+- Offer resources and information for Fortnite developers.
 
-To use these snippets, simply copy and paste them into your UEFN environment. Make sure to follow any additional instructions provided in the comments within the code files.  Also, understand Epic's verse writing style: https://dev.epicgames.com/documentation/en-us/uefn/verse-code-style-guide-in-unreal-editor-for-fortnite
+## Categories
+The code snippets in this repository are organized into the following categories:
 
-## Example Code Snippet
-Here is an example of how to use the code snippets in your project:
+### **Game Mechanics**
+### **User Interface**
+### **AI and NPCs**
+### **Multiplayer**
 
-```verse
-// Example code for spawning and eliminating waves of zombies
-
-class ZombieWaveManager {
-    var int zombiesSpawned = 0
-    var int zombiesEliminated = 0
-
-    function SpawnWave(int numberOfZombies) {
-        // Code to spawn zombies
-        zombiesSpawned += numberOfZombies
-        // Logic to handle spawning
-    }
-
-    function OnZombieEliminated() {
-        // Code to handle zombie elimination
-        zombiesEliminated += 1
-        // Logic to grant items to players
-    }
-
-    function TransitionToNextWave() {
-        // Code to manage wave transition
-        if (zombiesEliminated == zombiesSpawned) {
-            // Logic to start the next wave
-        }
-    }
-}
