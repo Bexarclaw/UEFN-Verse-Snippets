@@ -1,45 +1,71 @@
-# UEFN Verse Snippets
+using {/Fortnite.com/Devices}
+using {/Verse.org/Simulation}
+using {/UnrealEngine.com/Temporary/Diagnostics}
+using {/Verse.org/Random}
 
-This repository contains Unreal Engine Fortnite Verse code snippets that help with various gameplay mechanics involving zombie creatures. These snippets are provided for non-commercial use.
+# Game Controller placed in the level
+game_controller := class(creative_device):
 
-## Features
+    @editable
+    var creatureSpawner: creature_spawner_device = creature_spawner_device{}
 
-- **Spawning and eliminating waves of zombie creatures**: Automatically spawn waves of zombies and handle their elimination.
-- **Granting items to players upon eliminating zombies**: Reward players with items when they eliminate zombies.
-- **Tracking the number of zombies spawned and eliminated**: Keep track of the total number of zombies spawned and eliminated during gameplay.
-- **Managing the transition between waves**: Smoothly transition between different waves of zombies.
+    @editable
+    var itemGranter: item_granter_device = item_granter_device{}
 
-## Usage
+    @editable
+    var playerName: string = "ZombieKiller"
 
-To use these snippets, simply copy and paste them into your UEFN environment. Make sure to follow any additional instructions provided in the comments within the code files.
+    var fiendsEliminated: int = 0
+    var fiendsSpawned: int = 0
+    var waveSize: int = 1
+    var spawnerReady: logic = true
 
-## Example Code Snippet
+    # Event handler for when fiends are eliminated
+    OnFiendsEliminated(result: device_ai_interaction_result):void=
+        if spawnerReady:
+            # Item Granting Logic
+            if agent := result.Source?:
+                if GetRandomInt(1, 5) == 1:
+                    Print("Granting Bullets")
+                    for loopNumber := 1..GetRandomInt(1, 20):
+                        Print("Bullet {loopNumber}")
+                        itemGranter.SetNextItem(1)
+                        itemGranter.GrantItem(agent)
+            
+            fiendsEliminated += 1
+            Print("Fiends Eliminated: {fiendsEliminated}")
 
-Here is an example of how to use the code snippets in your project:
+            # Validate if fiends amount is correct before next wave
+            if fiendsEliminated >= waveSize:
+                spawnerReady = false
+                spawn{NextWave()}
 
-```verse
-// Example code for spawning and eliminating waves of zombies
+    # Function to start the next wave
+    NextWave():void=
+        creatureSpawner.EliminateCreatures()
+        Sleep(1.0)
+        waveSize += 1
+        fiendsEliminated = 0
+        fiendsSpawned = 0
+        spawnerReady = true
+        creatureSpawner.Enable()
+        Print("New Wave Approaching {waveSize}")
 
-class ZombieWaveManager {
-    var int zombiesSpawned = 0
-    var int zombiesEliminated = 0
+    # Event handler for when fiends are spawned
+    OnFiendsSpawned(spawnedAgent: agent):void=
+        fiendsSpawned += 1
+        Print("Fiends Spawned: {fiendsSpawned}")
 
-    function SpawnWave(int numberOfZombies) {
-        // Code to spawn zombies
-        zombiesSpawned += numberOfZombies
-        // Logic to handle spawning
-    }
+        # Prevent more fiends from spawning
+        if fiendsSpawned >= waveSize:
+            creatureSpawner.Disable()
 
-    function OnZombieEliminated() {
-        // Code to handle zombie elimination
-        zombiesEliminated += 1
-        // Logic to grant items to players
-    }
-
-    function TransitionToNextWave() {
-        // Code to manage wave transition
-        if (zombiesEliminated == zombiesSpawned) {
-            // Logic to start the next wave
-        }
-    }
-}
+    # Runs when the device is started in a running game
+    OnBegin():void=
+        # Add 1 frame of delay
+        Sleep(0.0)
+        creatureSpawner.EliminatedEvent.Subscribe(OnFiendsEliminated)
+        creatureSpawner.SpawnedEvent.Subscribe(OnFiendsSpawned)
+        Print("{playerName}'s score is {fiendsEliminated}")
+        # Start the first wave
+        creatureSpawner.Enable()
